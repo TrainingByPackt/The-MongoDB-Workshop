@@ -1,1 +1,1 @@
-# The-MongoDB-Workshop
+# The MongoDB Workshop
