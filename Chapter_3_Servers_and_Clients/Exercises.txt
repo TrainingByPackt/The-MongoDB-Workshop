@@ -7,6 +7,8 @@ Topic 3.2 Database Access - No code, cloud interface only
 
 Topic 3.3 Database Clients - exercise_3.py
 
-Topic 3.4 Server Commands  = exercise_4.js
+Topic 3.4 Server Commands  - exercise_4.js
 
-Activity 3.5 - No code
+Activity 3.5 - Mark User  - exercise_5.js
+
+
