@@ -3,11 +3,11 @@
 * 04/10/2019
 *
 * Packt MongoDB For Begginers.
-* Chapter 8
+* Chapter 6
 */
 
 // Activity code for Packt MongoDB For Begginers.
-// Includes the desired output and solution code for chapter 8 activity.
+// Includes the desired output and solution code for chapter 6 activity.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
 // mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Activity_Code.js
@@ -23,52 +23,7 @@ You aim to design, test and run an aggregation pipeline that will create this un
 To keep the desired output simple, limit the result to 3 documents for this scenario.
 */
 
-
-//// SOLUTION
-var chapter8Activity = function() {
-    var pipeline = [
-        {$match: {
-            released: {$lte: new ISODate("2001-01-01T00:00:00Z")},
-            "awards.wins": {$gte: 1},
-        }},
-        {$sort: {
-            "awards.nominations": -1
-        }},
-        { $group: {
-            _id: {"$arrayElemAt": ["$genres", 0]},
-            "film_id": {$first: "$_id"},
-            "film_title": {$first: "$title"},
-            "film_awards": {$first: "$awards"},
-            "film_runtime": {$first: "$runtime"},
-            "genre_award_wins": {$sum: "$awards.wins"},
-          }},
-          { $lookup: {
-            from: "comments",
-            localField: "film_id",
-            foreignField: "movie_id",
-            as: "comments"
-        }},
-        { $project: {
-            film_id: 1,
-            film_title: 1,
-            film_awards: 1,
-            film_runtime: { $add: [ "$film_runtime", 12]},
-            genre_award_wins: 1,
-              "comments": { $slice: ["$comments", 1]}
-          }}, 
-          { $sort: {
-              "genre_award_wins": -1
-          }},
-          { $limit: 3}
-    ];
-    
-    db.movies.aggregate(pipeline).forEach(printjson);
-}
-chapter8Activity();
-
-
 //// DESIRED OUTPUT
-/* 
 {
     "_id" : "Drama",
     "film_id" : ObjectId("573a139ff29313caabcff499"),
@@ -126,4 +81,107 @@ chapter8Activity();
             }
     ]
 }
- */
+
+//// SOLUTION STEPS
+// Scaffold code.
+var chapter6Activity = function() {
+    var pipeline = [];
+    db.movies.aggregate(pipeline).forEach(printjson);
+}
+Chapter6Activity()
+
+// Add match
+var pipeline = [
+    {$match: {
+        released: {$lte: new ISODate("2001-01-01T00:00:00Z")}
+    }}
+  ];
+
+// Add second match condition
+  {$match: {
+    released: {$lte: new ISODate("2001-01-01T00:00:00Z")},
+    "awards.wins": {$gte: 1},
+}}
+
+// Add a sort for our results
+{$sort: {
+    "awards.nominations": -1
+}},
+
+// Add a group by stage with all our new fields
+{ $group: {
+    _id: {"$arrayElemAt": ["$genres", 0]},
+    "film_id": {$first: "$_id"},
+    "film_title": {$first: "$title"},
+    "film_awards": {$first: "$awards"},
+    "film_runtime": {$first: "$runtime"},
+    "genre_award_wins": {$sum: "$awards.wins"},
+  }},
+
+// Perform a join on comments.
+{ $lookup: {
+    from: "comments",
+    localField: "film_id",
+    foreignField: "movie_id",
+    as: "comments"
+}},
+
+// Project the first comment from each array, plus all output fields.
+{ $project: {
+    film_id: 1,
+    film_title: 1,
+    film_awards: 1,
+    film_runtime: { $add: [ "$film_runtime", 12]},
+    genre_award_wins: 1,
+      "comments": { $slice: ["$comments", 1]}
+  }}, 
+
+// Sort by wins and limit.
+{ $sort: {
+    "genre_award_wins": -1
+}},
+{ $limit: 3}
+
+//// FINAL SOLUTION
+var chapter6Activity = function() {
+    var pipeline = [
+        {$match: {
+            released: {$lte: new ISODate("2001-01-01T00:00:00Z")},
+            "awards.wins": {$gte: 1},
+        }},
+        {$sort: {
+            "awards.nominations": -1
+        }},
+        { $group: {
+            _id: {"$arrayElemAt": ["$genres", 0]},
+            "film_id": {$first: "$_id"},
+            "film_title": {$first: "$title"},
+            "film_awards": {$first: "$awards"},
+            "film_runtime": {$first: "$runtime"},
+            "genre_award_wins": {$sum: "$awards.wins"},
+          }},
+          { $lookup: {
+            from: "comments",
+            localField: "film_id",
+            foreignField: "movie_id",
+            as: "comments"
+        }},
+        { $project: {
+            film_id: 1,
+            film_title: 1,
+            film_awards: 1,
+            film_runtime: { $add: [ "$film_runtime", 12]},
+            genre_award_wins: 1,
+              "comments": { $slice: ["$comments", 1]}
+          }}, 
+          { $sort: {
+              "genre_award_wins": -1
+          }},
+          { $limit: 3}
+    ];
+    
+    db.movies.aggregate(pipeline).forEach(printjson);
+}
+chapter6Activity();
+
+
