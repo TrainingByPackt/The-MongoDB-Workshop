@@ -86,7 +86,7 @@ findTopRomanceMovies();
         { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
         { $match: {
             genres: {$in: ["Romance"]}, // Romance movies only.
-            released: {$lte: new ISODate("2010-01-01T00:00:00Z") }}},
+            released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
         { $limit: 5 },                 // Limit to 5 results (last stage)
     ];
 
@@ -95,7 +95,7 @@ var pipeline = [
     { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
     { $match: {
         genres: {$in: ["Romance"]}, // Romance movies only.
-        released: {$lte: new ISODate("2010-01-01T00:00:00Z") }}},
+        released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
     { $limit: 5 },                 // Limit to 5 results.
     { $project: { genres: 1, released: 1, "imdb.rating": 1}}
 ];
@@ -116,23 +116,24 @@ mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix"
     }
 }
 {
-    "_id": ObjectId("573a13b1f29313caabd36698"),
+    "_id": ObjectId("573a1399f29313caabcee345"),
     "genres": [
-        "Drama",
+        "Comedy",
+        "Family",
         "Romance"
     ],
-    "released": ISODate("2005-07-02T00:00:00Z"),
+    "released": ISODate("1994-11-04T00:00:00Z"),
     "imdb": {
-        "rating": 9
+        "rating": 8.8
     }
 }
-// Four more documents below this.
+// Three more documents below this.
 
 // Swap stages to improve efficiency:
 var pipeline = [
     { $match: {
         genres: {$in: ["Romance"]}, // Romance movies only.
-        released: {$lte: new ISODate("2010-01-01T00:00:00Z") }}},
+        released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
     { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
     { $limit: 5 },                 // Limit to 5 results.
     { $project: { genres: 1, released: 1, "imdb.rating": 1}}
@@ -144,7 +145,7 @@ var findTopRomanceMovies = function() {
     var pipeline = [
         { $match: {
             genres: {$in: ["Romance"]}, // Romance movies only.
-            released: {$lte: new ISODate("2010-01-01T00:00:00Z") }}},
+            released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
         { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
         { $limit: 5 },                 // Limit to 5 results.
         { $project: { title: 1, genres: 1, released: 1, "imdb.rating": 1}}
@@ -171,15 +172,16 @@ mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix"
     }
 }
 {
-    "_id" : ObjectId("573a13b1f29313caabd36698"),
+    "_id" : ObjectId("573a1399f29313caabcee345"),
     "genres" : [
-            "Drama",
+            "Comedy",
+            "Family",
             "Romance"
     ],
-    "title" : "North & South",
-    "released" : ISODate("2005-07-02T00:00:00Z"),
+    "title" : "Andaz Apna Apna",
+    "released" : ISODate("1994-11-04T00:00:00Z"),
     "imdb" : {
-            "rating" : 9
+            "rating" : 8.8
     }
 }
 // Three more documents under this.
