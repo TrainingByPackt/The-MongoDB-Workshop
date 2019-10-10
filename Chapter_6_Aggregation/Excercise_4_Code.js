@@ -134,7 +134,20 @@ Finding award-winning documentary Movies...
                 "text" : "Won 1 Oscar. Another 43 wins & 25 nominations."
         }
 }
-... More documents below . . .
+{
+        "_id" : ObjectId("573a13d7f29313caabda2662"),
+        "genres" : [
+                "Documentary",
+                "Biography",
+				"Music"
+        ],
+        "title" : "Searching for Sugar Man",
+        "awards" : {
+                "wins" : 43,
+                "nominations" : 26,
+                "text" : "Won 1 Oscar. Another 42 wins & 26 nominations."
+        }
+}
 
 
 
