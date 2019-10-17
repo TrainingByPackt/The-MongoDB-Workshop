@@ -58,7 +58,7 @@ db.movies.findOne();
 var findTopRomanceMovies = function() {
     print("Finding top Classic Romance Movies...");
     var pipeline = [
-        { $limit: 5 },                 // Limit to 5 results.
+        { $limit: 3 },                 // Limit to 3 results.
         { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
   { $match: {. . .}}
     ];
@@ -70,7 +70,7 @@ findTopRomanceMovies();
 var findTopRomanceMovies = function() {
     print("Finding top Classic Romance Movies...");
     var pipeline = [
-        { $limit: 5 },                 // Limit to 5 results.
+        { $limit: 3 },                 // Limit to 3 results.
         { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
         { $match: {
             genres: {$in: ["Romance"]}, // Romance movies only.
@@ -87,7 +87,7 @@ findTopRomanceMovies();
         { $match: {
             genres: {$in: ["Romance"]}, // Romance movies only.
             released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
-        { $limit: 5 },                 // Limit to 5 results (last stage)
+        { $limit: 3 },                 // Limit to 3 results (last stage)
     ];
 
 // Add projection to the pipeline:
@@ -96,7 +96,7 @@ var pipeline = [
     { $match: {
         genres: {$in: ["Romance"]}, // Romance movies only.
         released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
-    { $limit: 5 },                 // Limit to 5 results.
+    { $limit: 3 },                 // Limit to 3 results.
     { $project: { genres: 1, released: 1, "imdb.rating": 1}}
 ];
 
@@ -135,7 +135,7 @@ var pipeline = [
         genres: {$in: ["Romance"]}, // Romance movies only.
         released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
     { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
-    { $limit: 5 },                 // Limit to 5 results.
+    { $limit: 3},                 // Limit to 3 results.
     { $project: { genres: 1, released: 1, "imdb.rating": 1}}
 ];
 
@@ -147,7 +147,7 @@ var findTopRomanceMovies = function() {
             genres: {$in: ["Romance"]}, // Romance movies only.
             released: {$lte: new ISODate("2001-01-01T00:00:00Z") }}},
         { $sort:  {"imdb.rating": -1}}, // Sort by IMDB rating.
-        { $limit: 5 },                 // Limit to 5 results.
+        { $limit: 3 },                 // Limit to 3 results.
         { $project: { title: 1, genres: 1, released: 1, "imdb.rating": 1}}
     ];
     db.movies.aggregate(pipeline).forEach(printjson);

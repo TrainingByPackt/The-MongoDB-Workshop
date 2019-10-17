@@ -9,147 +9,107 @@
 // Excercise code for Packt MongoDB For Begginers.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
-// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_3_Code.js
+// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_4_Code.js
 
-//// TOPIC D: Getting the most from your aggregations
-// Excercise: Getting the most from your aggregations
-// Review the following pipeline:
-var findAwardWinningDocumentaries = function() {
-    print("Finding award winning documentary Movies...");
+//// TOPIC C: Working with large data sets.
+// Excercise: Working with large data sets.
+// Create code skeleton
+var findMostCommentedMovies = function() {
+    print("Finding the most commented on movies.");
     var pipeline = [
-        { $sort:  {"awards.wins": -1}}, // Sort by award wins.
-        { $match: {"awards.wins": { $gte: 1}}},
-        { $limit: 20}, // Get the top 20 movies with more than one award 
-        { $match: {
-            genres: {$in: ["Documentary"]}, // Documentary movies only.
-        }},
-        { $project: { title: 1, genres: 1, awards: 1}},
-        { $limit: 3}, 
+             { $sample: {}}, 
+             { $group: {}},
+             { $sort: {}},
+             { $limit: 5},
+             { $lookup: {}},
+             { $unwind: },
+             { $project: {}}
+             { $out: {}}
     ];
-    var options = { }
-    db.movies.aggregate(pipeline, options).forEach(printjson);
+    db.comments.aggregate(pipeline).forEach(printjson);
 }
-findAwardWinningDocumentaries();
+findMostCommentedMovies();
 
-// Merge match stages and move the match:
-var pipeline = [
-    { $match: {
-        "awards.wins": { $gte: 1},
-        genres: {$in: ["Documentary"]},
-    }},
-    { $sort:  {"awards.wins": -1}}, // Sort by award wins.
-    { $limit: 20}, // Get the top 20 movies. 
-    { $project: { title: 1, genres: 1, awards: 1}},
-    { $limit: 3},
-];
+// Run a count in the mongodb shell to see the size of our collection
+db.comments.count()  
+22101
 
-// Move the sort to near the end
-var pipeline = [
-    { $match: {
-        "awards.wins": { $gte: 1},
-        genres: {$in: ["Documentary"]},
-    }},
-    { $limit: 20}, // Get the top 20 movies. 
-    { $project: { title: 1, genres: 1, awards: 1}},
-    { $sort:  {"awards.wins": -1}}, // Sort by award wins.
-    { $limit: 3},
-];
+// Set the sample size
+{ $sample: {size: 5000}}, 
 
+// Fill in the group by
+{ $group: {
+    _id: "$movie_id",
+    "sumComments": { $sum: 1}
+}},
 
-// Delete the redundant first limit
-var pipeline = [
-    { $match: {
-        "awards.wins": { $gte: 1},
-        genres: {$in: ["Documentary"]},
-    }},
-    { $project: { title: 1, genres: 1, awards: 1}},
-    { $sort:  {"awards.wins": -1}}, // Sort by award wins.
-    { $limit: 3},
-];
+// Fill in the sort stage
+{ $sort: { "sumComments": -1}},
 
-// Move the projection
-var pipeline = [
-    { $match: {
-        "awards.wins": { $gte: 1},
-        genres: {$in: ["Documentary"]},
-    }},
-    { $sort:  {"awards.wins": -1}}, // Sort by award wins.
-    { $limit: 3},
-    { $project: { title: 1, genres: 1, awards: 1}},
-];
+// Run the pipeline, you should see something like:
+Finding the most commented on movies.
+{ "_id" : ObjectId("573a139af29313caabcf0e6c"), "sumComments" : 43 }
+{ "_id" : ObjectId("573a1399f29313caabcee578"), "sumComments" : 43 }
+{ "_id" : ObjectId("573a139af29313caabcf0178"), "sumComments" : 42 }
+{ "_id" : ObjectId("573a139ef29313caabcfbd80"), "sumComments" : 41 }
+{ "_id" : ObjectId("573a1397f29313caabce8413"), "sumComments" : 40 }
 
-// Add our aggregation options
-var options ={
-    maxTimeMS: 30000,
-    allowDiskUse: true,
-    comment: "Find Award Winning Documentary Films"
-}
+// Perform a lookup on comments
+{ $lookup: {
+    from: "movies",
+    localField: "_id",
+    foreignField: "_id",
+    as: "movie"
+}},
 
-// Full (revised) query
-var findAwardWinningDocumentaries = function() {
-    print("Finding award winning documentary Movies...");
+// Unwind and project our new comments
+{ $unwind: "$movie" },
+{ $project: {
+    "movie.title": 1,
+    "movie.imdb.rating": 1,
+    "sumComments": 1,
+}}
+
+// Merge this result into a new collection
+{ $out: "most_commented_movies" }
+
+// Final result should be
+var findMostCommentedMovies = function() {
+    print("Finding the most commented on movies.");
     var pipeline = [
-        { $match: {
-            "awards.wins": { $gte: 1},
-            genres: {$in: ["Documentary"]},
-        }},
-        { $sort:  {"awards.wins": -1}}, // Sort by award wins.
-        { $limit: 3},
-        { $project: { title: 1, genres: 1, awards: 1}},
+             { $sample: {size: 5000}}, 
+             { $group: {
+                 _id: "$movie_id",
+                 "sumComments": { $sum: 1}
+             }},
+             { $sort: { "sumComments": -1}},
+             { $limit: 5},
+             { $lookup: {
+                 from: "movies",
+                 localField: "_id",
+                 foreignField: "_id",
+                 as: "movie"
+             }},
+             { $unwind: "$movie" },
+             { $project: {
+                 "movie.title": 1,
+                 "movie.imdb.rating": 1,
+                 "sumComments": 1,
+             }},
+             { $out: "most_commented_movies" }
     ];
-    
-    var options ={
-        maxTimeMS: 30000,
-        allowDiskUse: true,
-        comment: "Find Award Winning Documentary Films"
-    }
-    db.movies.aggregate(pipeline, options).forEach(printjson);
+    db.comments.aggregate(pipeline).forEach(printjson);
 }
-findAwardWinningDocumentaries();
+findMostCommentedMovies();
 
-// Result should look like
-Finding award-winning documentary Movies...
-{
-        "_id" : ObjectId("573a13dcf29313caabdb1463"),
-        "genres" : [
-                "Documentary",
-                "History"
-        ],
-        "title" : "The Act of Killing",
-        "awards" : {
-                "wins" : 57,
-                "nominations" : 30,
-                "text" : "Nominated for 1 Oscar. Another 56 wins & 30 nominations."
-        }
-}
-{
-        "_id" : ObjectId("573a13f4f29313caabde1684"),
-        "genres" : [
-                "Documentary"
-        ],
-        "title" : "Citizenfour",
-        "awards" : {
-                "wins" : 44,
-                "nominations" : 25,
-                "text" : "Won 1 Oscar. Another 43 wins & 25 nominations."
-        }
-}
-{
-        "_id" : ObjectId("573a13d7f29313caabda2662"),
-        "genres" : [
-                "Documentary",
-                "Biography",
-				"Music"
-        ],
-        "title" : "Searching for Sugar Man",
-        "awards" : {
-                "wins" : 43,
-                "nominations" : 26,
-                "text" : "Won 1 Oscar. Another 42 wins & 26 nominations."
-        }
-}
+// Run the pipeline. There is no output.
 
-
-
+// Query our new collection
+> db.most_commented_movies.find()
+{ "_id" : ObjectId("573a139af29313caabcf0f51"), "sumComments" : 45, "movie" : { "imdb" : { "rating" : 7.4 }, "title" : "X-Men" } }
+{ "_id" : ObjectId("573a1396f29313caabce5ba0"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 8.1 }, "title" : "Jaws" } }
+{ "_id" : ObjectId("573a139af29313caabcf0e6c"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 7 }, "title" : "The Mummy" } }
+{ "_id" : ObjectId("573a139af29313caabcf0f68"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 6.1 }, "title" : "Men in Black II" } }     
+{ "_id" : ObjectId("573a1398f29313caabceb500"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 7.8 }, "title" : "Back to the Future Part II" } }
 
 

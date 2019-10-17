@@ -1,3 +1,4 @@
+
 /*
 * Michael Harrison.
 * 04/10/2019
@@ -11,115 +12,90 @@
 // Can be run as a file like below:
 // mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_3_Code.js
 
-//// TOPIC C: Working with large data sets.
-// Excercise: Working with large data sets.
-// Create code skeleton
-var findMostCommentedMovies = function() {
-    print("Finding the most commented on movies.");
-    var pipeline = [
-             { $sample: {}}, 
-             { $group: {}},
-             { $sort: {}},
-             { $limit: 5},
-             { $lookup: {}},
-             { $unwind: },
-             { $project: {}}
-       { $merge: {}}
-    ];
-    db.comments.aggregate(pipeline).forEach(printjson);
-}
-findMostCommentedMovies();
+// Excercise Part 2: Manipulating Data
+// Modify the match to filter out long films
+{ $match: {
+  released: {$lte: new ISODate("2001-01-01T00:00:00Z") },
+  runtime:  {$lte: 218},
+  "imdb.rating": {$gte: 7.0}
+  }
+ },
 
-// Run a count in the mongodb shell to see the size of our collection
-db.comments.count()  
-22101
+// Add a new sort stage
+{ $sort: {"imdb.rating": -1}},
 
-// Set the sample size
-{ $sample: {size: 5000}}, 
-
-// Fill in the group by
+// Add the new first accumulator to the group stage.
 { $group: {
-    _id: "$movie_id",
-    "sumComments": { $sum: 1}
+  _id: {"$arrayElemAt": ["$genres", 0]},
+  "recommended_title": {$first: "$title"},
+  "recommended_rating": {$first: "$imdb.rating"},
+  "recommended_raw_runtime": {$first: "$runtime"},
+  "popularity": {  $avg: "$imdb.rating"},
+  "top_movie": { $max: "$imdb.rating"},
+  "longest_runtime": { $max: "$runtime"}
 }},
 
-// Fill in the sort stage
-{ $sort: { "sumComments": -1}},
-
-// Run the pipeline, you should see something like:
-Finding the most commented on movies.
-{ "_id" : ObjectId("573a139af29313caabcf0e6c"), "sumComments" : 43 }
-{ "_id" : ObjectId("573a1399f29313caabcee578"), "sumComments" : 43 }
-{ "_id" : ObjectId("573a139af29313caabcf0178"), "sumComments" : 42 }
-{ "_id" : ObjectId("573a139ef29313caabcfbd80"), "sumComments" : 41 }
-{ "_id" : ObjectId("573a1397f29313caabce8413"), "sumComments" : 40 }
-
-// Perform a lookup on comments
-{ $lookup: {
-    from: "movies",
-    localField: "_id",
-    foreignField: "_id",
-    as: "movie"
-}},
-
-// Unwind and project our new comments
-{ $unwind: "$movie" },
+// Add these new fields to projection
 { $project: {
-    "movie.title": 1,
-    "movie.imdb.rating": 1,
-    "sumComments": 1,
-}}
+  _id: 1,
+   popularity: 1, 
+   top_movie: 1, 
+   recommended_title: 1,
+   recommended_rating: 1,
+   recommended_raw_runtime: 1,
+   adjusted_runtime: { $add: [ "$longest_runtime", 12 ] } } }
 
-// Merge this result into a new collection
-{ $merge: {
-    into: "most_commented_movies",
-    on: "_id",
-    whenMatched: "replace",
-    whenNotMatched: "insert"
-}}
-
-// Final result should be
-var findMostCommentedMovies = function() {
-    print("Finding the most commented on movies.");
-    var pipeline = [
-             { $sample: {size: 5000}}, 
-             { $group: {
-                 _id: "$movie_id",
-                 "sumComments": { $sum: 1}
-             }},
-             { $sort: { "sumComments": -1}},
-             { $limit: 5},
-             { $lookup: {
-                 from: "movies",
-                 localField: "_id",
-                 foreignField: "_id",
-                 as: "movie"
-             }},
-             { $unwind: "$movie" },
-             { $project: {
-                 "movie.title": 1,
-                 "movie.imdb.rating": 1,
-                 "sumComments": 1,
-             }},
-             { $merge: {
-                 into: "most_commented_movies",
-                 on: "_id",
-                 whenMatched: "replace",
-                 whenNotMatched: "insert"
-             }}
-    ];
-    db.comments.aggregate(pipeline).forEach(printjson);
+// You new final query will look like
+var findGenrePopularity = function() {
+  print("Finding popularity of each genre");
+  var pipeline = [
+     { $match: {
+      released: {$lte: new ISODate("2001-01-01T00:00:00Z") },
+      runtime:  {$lte: 218},
+      "imdb.rating": {$gte: 7.0}
+      }
+     },
+     { $sort: {"imdb.rating": -1}},
+     { $group: {
+       _id: {"$arrayElemAt": ["$genres", 0]},
+       "recommended_title": {$first: "$title"},
+       "recommended_rating": {$first: "$imdb.rating"},
+       "recommended_raw_runtime": {$first: "$runtime"},
+       "popularity": {  $avg: "$imdb.rating"},
+       "top_movie": { $max: "$imdb.rating"},
+       "longest_runtime": { $max: "$runtime"}
+     }},
+     { $sort: { popularity: -1}},
+     { $project: {
+          _id: 1,
+           popularity: 1, 
+           top_movie: 1, 
+           recommended_title: 1,
+           recommended_rating: 1,
+           recommended_raw_runtime: 1,
+           adjusted_runtime: { $add: [ "$longest_runtime", 12 ] } } }
+  ];
+  db.movies.aggregate(pipeline).forEach(printjson);
 }
-findMostCommentedMovies();
+findGenrePopularity();
 
-// Run the pipeline. There is no output.
-
-// Query our new collection
-> db.most_commented_movies.find()
-{ "_id" : ObjectId("573a139af29313caabcf0f51"), "sumComments" : 45, "movie" : { "imdb" : { "rating" : 7.4 }, "title" : "X-Men" } }
-{ "_id" : ObjectId("573a1396f29313caabce5ba0"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 8.1 }, "title" : "Jaws" } }
-{ "_id" : ObjectId("573a139af29313caabcf0e6c"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 7 }, "title" : "The Mummy" } }
-{ "_id" : ObjectId("573a139af29313caabcf0f68"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 6.1 }, "title" : "Men in Black II" } }     
-{ "_id" : ObjectId("573a1398f29313caabceb500"), "sumComments" : 42, "movie" : { "imdb" : { "rating" : 7.8 }, "title" : "Back to the Future Part II" } }
-
+// And the start of your output should look like
+{
+  "_id" : "Film-Noir",
+  "recommended_title" : "The Third Man",
+  "recommended_rating" : 8.3,
+  "recommended_raw_runtime" : 93,
+  "popularity" : 7.85,
+  "top_movie" : 8.3,
+  "adjusted_runtime" : 123
+}
+{
+  "_id" : "Documentary",
+  "recommended_title" : "Cosmos",
+  "recommended_rating" : 9.3,
+  "recommended_raw_runtime" : 60,
+  "popularity" : 7.69695945945946,
+  "top_movie" : 9.3,
+  "adjusted_runtime" : 212
+}
 
