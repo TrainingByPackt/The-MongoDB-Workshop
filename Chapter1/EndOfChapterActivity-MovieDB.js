@@ -11,21 +11,66 @@
  use moviesDB;
 
 
- //insertOne command can be called to insert one document at a time. Let’s look at it in action:
+// Let’s create movies collection with few relevant attributes.
+// We will create the collection by inserting the documents in a non-existent collection.
+// You are encouraged to think and implement collections with attributes that you may find more suitable.
+
+db.movies.insertMany( [
+    {
+            "title": "Rocky",
+            "releaseDate": new Date("Dec 3, 1976"),
+            "genre": "Action",
+    "about": "A small-time boxer gets a supremely rare chance to fight a heavy-weight champion in a bout in which he strives to go the distance for his self-respect.",
+            "countries": ["USA"],
+    "cast" : ["Sylvester Stallone","Talia Shire","Burt Young"],
+    "writers" : ["Sylvester Stallone"],
+    "directors" : ["John G. Avildsen"]
+    
+    },
+    {
+            "title": "Rambo 4",
+            "releaseDate ": new Date("Jan 25, 2008"),
+            "genre": "Action",
+            "about": "In Thailand, John Rambo joins a group of mercenaries to venture into war-torn Burma, and rescue a group of Christian aid workers who were kidnapped by the ruthless local infantry unit.",
+            "countries": ["USA"],
+    "cast" : [" Sylvester Stallone", "Julie Benz", "Matthew Marsden"],
+    "writers" : ["Art Monterastelli","Sylvester Stallone"],
+    "directors" : ["Sylvester Stallone"]
+    
+    }
+])
+    
  
- db.blogs.insertOne(
-     { username: "Zakariya", noOfBlogs: 100, tags: ["science","fiction"]
- })
  
  
- 
- //insertMany() command allows you to insert multiple documents in one go. You can pass an array of documents to the command as mentioned here:
- 
- db.blogs.insertMany([
-     { username: "Thaha", noOfBlogs: 200, tags: ["science","robotics"]},   
-     { username: "Thayebbah", noOfBlogs: 500, tags: ["cooking","general knowledge"]},
-     { username: "Thaherah", noOfBlogs: 50, tags: ["beauty","arts"]}
- ])
+//4.	Let’s create an awards collection with few records.
+//  It is encouraged to think and come up with your own collection name and attributes.
+// Here are few inserts in a basic awards collection 
+
+db.movies.insertOne(
+    {
+            "title": "Oscars",
+            "year": "1976",
+            "category": "Best Film",
+            "nominess": ["Rocky","All The President’s Men","Bound For Glory","Network","Taxi Driver"],
+    "winners" : [{
+    movie : "Rocky"
+      }]
+    
+    });
+    
+    db.movies.insertOne(
+    {
+            "title": "Oscars",
+            "year": "1976",
+            "category": "Actor In A Leading Role",
+            "nominess": ["PETER FINCH","ROBERT DE NIRO","GIANCARLO GIANNINI"," WILLIAM HOLDEN","SYLVESTER STALLONE"],
+    "winners" : [{
+    "actor" : "PETER FINCH",
+    "movie" : "Network"
+                      }]
+    });
+    
  
  
  
