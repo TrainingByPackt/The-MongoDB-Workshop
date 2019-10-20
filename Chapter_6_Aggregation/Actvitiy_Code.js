@@ -88,7 +88,7 @@ var chapter6Activity = function() {
     var pipeline = [];
     db.movies.aggregate(pipeline).forEach(printjson);
 }
-Chapter6Activity()
+chapter6Activity()
 
 // Add match
 var pipeline = [

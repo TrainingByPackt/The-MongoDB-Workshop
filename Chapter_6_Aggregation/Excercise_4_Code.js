@@ -32,7 +32,7 @@ findMostCommentedMovies();
 
 // Run a count in the mongodb shell to see the size of our collection
 db.comments.count()  
-22101
+50304
 
 // Set the sample size
 { $sample: {size: 5000}}, 
