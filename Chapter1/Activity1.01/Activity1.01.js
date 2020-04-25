@@ -40,7 +40,8 @@ db.movies.insertMany(
     ]
 )
     
- 
+ // Let's confirm whether our inserts are added to the movies collection 
+ db.movies.find().pretty() 
  
  
 // Let’s create an awards collection with few records.
@@ -77,3 +78,6 @@ db.awards.insertOne(
         ]
     }
 )
+
+ // Fetch the documents from the awards collection 
+ db.movies.find().pretty() 
