@@ -48,33 +48,32 @@ db.movies.insertMany(
 // Here are few inserts in a basic awards collection 
 
 db.awards.insertOne(
-{
-    "title": "Oscars",
-    "year": "1976",
-    "category": "Best Film",
-    "nominess": ["Rocky","All The President’s Men","Bound For Glory","Network","Taxi Driver"],
-    "winners" : 
-    [
-        {
-            "movie" : "Rocky"
-        }
-    ]
-}
+    {
+        "title": "Oscars",
+        "year": "1976",
+        "category": "Best Film",
+        "nominess": ["Rocky","All The President’s Men","Bound For Glory","Network","Taxi Driver"],
+        "winners" : 
+        [
+            {
+                "movie" : "Rocky"
+            }
+        ]
+    }
 )
     
 db.awards.insertOne(
-{
-    "title": "Oscars",
-    "year": "1976",
-    "category": "Actor In A Leading Role",
-    "nominess": ["PETER FINCH","ROBERT DE NIRO","GIANCARLO GIANNINI"," WILLIAM HOLDEN","SYLVESTER STALLONE"],
-    "winners" : 
-    [
-        {
-            "actor" : "PETER FINCH",
-            "movie" : "Network"
-        }
-    ]
-}
+    {
+        "title": "Oscars",
+        "year": "1976",
+        "category": "Actor In A Leading Role",
+        "nominess": ["PETER FINCH","ROBERT DE NIRO","GIANCARLO GIANNINI"," WILLIAM HOLDEN","SYLVESTER STALLONE"],
+        "winners" : 
+        [
+            {
+                "actor" : "PETER FINCH",
+                "movie" : "Network"
+            }
+        ]
+    }
 )
-    
