@@ -1,0 +1,12 @@
+ { 
+     "title": "Oscars", 
+     "year": "1976", 
+     "category": "Best Film", 
+     "nominess": ["Rocky","All The President’s Men","Bound For Glory","Network","Taxi Driver"], 
+     "winners" : 
+     [
+         { 
+             "movie" : "Rocky" 
+        }
+    ] 
+} 
