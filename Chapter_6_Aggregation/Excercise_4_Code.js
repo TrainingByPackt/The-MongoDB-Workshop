@@ -6,13 +6,13 @@
 * Chapter 6
 */
 
-// Excercise code for Packt MongoDB For Begginers.
+// Exercise code for Packt MongoDB For Begginers.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
-// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_4_Code.js
+// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Exercise_4_Code.js
 
 //// TOPIC C: Working with large data sets.
-// Excercise: Working with large data sets.
+// Exercise: Working with large data sets.
 // Create code skeleton
 var findMostCommentedMovies = function() {
     print("Finding the most commented on movies.");

@@ -6,13 +6,13 @@
 * Chapter 6
 */
 
-// Excercise code for Packt MongoDB For Begginers.
+// Exercise code for Packt MongoDB For Begginers.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
-// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_1_Code.js
+// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Exercise_1_Code.js
 
 //// TOPIC A: "Aggregate is the new Find"
-// Excercise 1: Introduction to Simple Aggregations.
+// Exercise 1: Introduction to Simple Aggregations.
 
 // Run
 use sample_mflix
@@ -102,7 +102,7 @@ var pipeline = [
 
 // Run the file from your shell (or from MongoDB)
 mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix"
- --username $USERNAME --password $PASSWORD .\Ch6_Excercise1.js
+ --username $USERNAME --password $PASSWORD .\Ch6_Exercise1.js
 // Should return output like:
  {
     "_id": ObjectId("573a1399f29313caabceeead"),
@@ -156,7 +156,7 @@ findTopRomanceMovies();
 
 // Run again from shell (or mongodb)
 mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix"
- --username $USERNAME --password $PASSWORD .\Ch6_Excercise1.js
+ --username $USERNAME --password $PASSWORD .\Ch6_Exercise1.js
 
  // And you should see:
   {

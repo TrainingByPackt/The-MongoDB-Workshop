@@ -6,11 +6,11 @@
 * Chapter 7
 */
 
-// Excercise code for Packt MongoDB For Begginers.
+// Exercise code for Packt MongoDB For Begginers.
 // This code can be run using NodeJS, make sure you have the MongoDB node driver installed with NPM before running.
 
 //// TOPIC A: "Connecting with the Driver."
-// Excercise 1: Creating a connection with the NodeJS Driver.
+// Exercise 1: Creating a connection with the NodeJS Driver.
 
 // Import MongoDB Driver module.
 const MongoClient = require('mongodb').MongoClient;

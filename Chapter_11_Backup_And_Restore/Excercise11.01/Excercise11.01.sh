@@ -6,10 +6,10 @@
 # Chapter 11
 #
 
-# Excercise code for Packt MongoDB For Begginers.
+# Exercise code for Packt MongoDB For Begginers.
 
 ## TOPIC A: "MongoExport"
-# Excercise 1: Exporting MongoDB Data
+# Exercise 1: Exporting MongoDB Data
 
 # First cut of the command.
 mongoexport --uri=mongodb+srv:USERNAME:PASSWORD@myAtlas-fawxo.gcp.mongodb.net/sample_mflix --collection=movies

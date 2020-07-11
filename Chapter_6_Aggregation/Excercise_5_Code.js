@@ -6,13 +6,13 @@
 * Chapter 6
 */
 
-// Excercise code for Packt MongoDB For Begginers.
+// Exercise code for Packt MongoDB For Begginers.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
-// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_5_Code.js
+// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Exercise_5_Code.js
 
 //// TOPIC D: Getting the most from your aggregations
-// Excercise: Getting the most from your aggregations
+// Exercise: Getting the most from your aggregations
 // Review the following pipeline:
 var findAwardWinningDocumentaries = function() {
     print("Finding award winning documentary Movies...");

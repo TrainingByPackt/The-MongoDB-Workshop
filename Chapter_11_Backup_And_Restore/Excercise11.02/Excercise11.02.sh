@@ -6,10 +6,10 @@
 # Chapter 11
 #
 
-# Excercise code for Packt MongoDB For Begginers.
+# Exercise code for Packt MongoDB For Begginers.
 
 ## TOPIC B: "MongoImport"
-# Excercise 2: Importing MongoDB Data.
+# Exercise 2: Importing MongoDB Data.
 
 # STEPS
 mongoimport --uri=mongodb+srv://USERNAME:PASSWORD@myAtlas-fawxo.gcp.mongodb.net/imports --collection=oldData --file=old.csv

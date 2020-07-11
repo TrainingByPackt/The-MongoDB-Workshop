@@ -5,12 +5,12 @@
 * Packt MongoDB For Begginers.
 * Chapter 6
 */
-// Excercise code for Packt MongoDB For Begginers.
+// Exercise code for Packt MongoDB For Begginers.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
-// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Excercise_2_Code.js
+// mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Exercise_2_Code.js
 //// TOPIC B: Manipulating Data
-// Excercise Part 1: Manipulating Data
+// Exercise Part 1: Manipulating Data
 // Create initial skeleton
 var findGenrePopularity = function() {
     print("Finding popularity of each genre");

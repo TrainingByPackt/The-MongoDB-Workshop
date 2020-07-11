@@ -6,11 +6,11 @@
 * Chapter 7
 */
 
-// Excercise code for Packt MongoDB For Begginers.
+// Exercise code for Packt MongoDB For Begginers.
 // This code can be run using NodeJS, make sure you have the MongoDB node driver installed with NPM before running.
 
 //// TOPIC E: "Input handling with the NodeJS."
-// Excercise 5: Input handling with NodeJS.
+// Exercise 5: Input handling with NodeJS.
 
 const readline = require('readline');
 const interface = readline.createInterface({

@@ -6,10 +6,10 @@
 # Chapter 11
 #
 
-# Excercise code for Packt MongoDB For Begginers.
+# Exercise code for Packt MongoDB For Begginers.
 
 # TOPIC C: "MongoDump"
-# Excercise 3: Backing Up MongoDB Data.
+# Exercise 3: Backing Up MongoDB Data.
 
 # STEPS
 mongodump --uri=mongodb+srv://USERNAME:PASSWORD@myAtlas-fawxo.gcp.mongodb.net/sample_mflix
