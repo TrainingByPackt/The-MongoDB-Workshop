@@ -3,11 +3,11 @@
 * 04/10/2019
 *
 * Packt MongoDB For Begginers.
-* Chapter 6
+* Chapter 7
 */
 
 // Activity code for Packt MongoDB For Begginers.
-// Includes the desired output and solution code for chapter 6 activity.
+// Includes the desired output and solution code for chapter 7 activity.
 // This code can be run directly against the MongoDB Shell in interactive mode, or
 // Can be run as a file like below:
 // mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix" --username $USERNAME --password $PASSWORD .\Activity_Code.js
@@ -84,11 +84,11 @@ To keep the desired output simple, limit the result to 3 documents for this scen
 
 //// SOLUTION STEPS
 // Scaffold code.
-var chapter6Activity = function() {
+var chapter7Activity = function() {
     var pipeline = [];
     db.movies.aggregate(pipeline).forEach(printjson);
 }
-chapter6Activity()
+chapter7Activity()
 
 // Add match
 var pipeline = [
@@ -143,7 +143,7 @@ var pipeline = [
 { $limit: 3}
 
 //// FINAL SOLUTION
-var chapter6Activity = function() {
+var chapter7Activity = function() {
     var pipeline = [
         {$match: {
             released: {$lte: new ISODate("2001-01-01T00:00:00Z")},
@@ -182,6 +182,6 @@ var chapter6Activity = function() {
     
     db.movies.aggregate(pipeline).forEach(printjson);
 }
-chapter6Activity();
+chapter7Activity();
 
 

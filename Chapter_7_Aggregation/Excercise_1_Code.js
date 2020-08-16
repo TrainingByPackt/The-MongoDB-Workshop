@@ -3,7 +3,7 @@
 * 04/10/2019
 *
 * Packt MongoDB For Begginers.
-* Chapter 6
+* Chapter 7
 */
 
 // Excercise code for Packt MongoDB For Begginers.
@@ -102,7 +102,7 @@ var pipeline = [
 
 // Run the file from your shell (or from MongoDB)
 mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix"
- --username $USERNAME --password $PASSWORD .\Ch6_Excercise1.js
+ --username $USERNAME --password $PASSWORD .\Ch7_Excercise1.js
 // Should return output like:
  {
     "_id": ObjectId("573a1399f29313caabceeead"),
@@ -156,7 +156,7 @@ findTopRomanceMovies();
 
 // Run again from shell (or mongodb)
 mongo "mongodb+srv://myAtlasCluster-fawxo.gcp.mongodb.net/sample_mflix"
- --username $USERNAME --password $PASSWORD .\Ch6_Excercise1.js
+ --username $USERNAME --password $PASSWORD .\Ch7_Excercise1.js
 
  // And you should see:
   {
