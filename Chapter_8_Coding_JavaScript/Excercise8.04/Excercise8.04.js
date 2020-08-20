@@ -16,7 +16,7 @@ const url =
   'mongodb+srv://user:password@server-abcde.gcp.mongodb.net/test?retryWrites=true&w=majority';
 const client = new MongoClient(url);
 const databaseName = 'sample_mflix';
-const collectionName = 'chapter7_excercise4';
+const collectionName = 'chapter8_excercise4';
 
 const updateName = function (client, database, oldName, newName) {
   database
