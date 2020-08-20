@@ -12,8 +12,7 @@
 //// TOPIC B: "Simple Queries with the Driver."
 // Excercise 2: Simple Queries with the NodeJS Driver.
 const MongoClient = require('mongodb').MongoClient;
-const url =
-  'mongodb+srv://user:password@server-abcde.gcp.mongodb.net/test?retryWrites=true&w=majority';
+const url = process.env.ATLAS_URI;
 const client = new MongoClient(url);
 
 const databaseName = 'sample_mflix';
