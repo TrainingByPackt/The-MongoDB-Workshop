@@ -12,8 +12,7 @@
 //// TOPIC C: "Error handling with the Driver."
 // Excercise 3: Error Handling with the NodeJS Driver.
 const MongoClient = require('mongodb').MongoClient;
-const url =
-  'mongodb+srv://user:password@server-abcde.gcp.mongodb.net/test?retryWrites=true&w=majority';
+const url = process.env.ATLAS_URI; // Passed in as an environment variable.
 const client = new MongoClient(url);
 const databaseName = 'sample_mflix';
 const collectionName = 'movies';

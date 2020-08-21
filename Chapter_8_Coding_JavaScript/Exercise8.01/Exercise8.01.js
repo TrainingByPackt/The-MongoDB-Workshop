@@ -16,9 +16,7 @@
 const MongoClient = require('mongodb').MongoClient;
 
 // Create a new url variable.
-const url =
-  'mongodb+srv://user:password@server-abcde.gcp.mongodb.net/test?retryWrites=true&w=majority';
-
+const url = process.env.ATLAS_URI; // Passed in as an environment variable.
 // Create a new MongoClient.
 const client = new MongoClient(url);
 
